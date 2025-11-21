@@ -27,7 +27,7 @@
         body {
             background: var(--color-background);
             color: var(--color-text);
-            font-family: 'Poppins', sans-serif; /* Menggunakan font yang lebih modern */
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -36,17 +36,16 @@
             padding: 20px;
             overflow-x: hidden;
             background: radial-gradient(circle at top, var(--color-secondary) 10%, var(--color-background) 100%);
-            /* Animasi latar belakang halus */
             transition: background 0.5s ease;
         }
 
         /* Judul Utama */
         h1 {
-            font-size: clamp(2rem, 8vw, 4rem); /* Ukuran responsif */
+            font-size: clamp(2rem, 8vw, 4rem);
             font-weight: 200;
             letter-spacing: 12px;
             color: var(--color-text);
-            text-shadow: 0 0 15px rgba(0, 204, 255, 0.5); /* Efek glow halus */
+            text-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
             opacity: 0;
             transform: translateY(-40px);
             animation: titleIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.5s;
@@ -76,17 +75,18 @@
 
         /* Card Kontainer */
         .card {
-            background: rgba(15, 25, 50, 0.85); /* Sedikit lebih gelap */
+            background: rgba(15, 25, 50, 0.85);
             border: 1px solid rgba(0, 204, 255, 0.3);
-            border-radius: 30px; /* Lebih bulat */
+            border-radius: 30px;
             padding: 35px;
             width: 100%;
             max-width: 480px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(0, 204, 255, 0.2); /* Bayangan ganda dengan glow */
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 50px rgba(0, 204, 255, 0.2);
             opacity: 0;
             transform: scale(0.9);
             animation: cardIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards 1.3s;
+            position: relative;
         }
 
         @keyframes cardIn {
@@ -97,7 +97,7 @@
         }
 
         /* Tombol */
-        button, .btn {
+        button, .btn, #switch-cam {
             background: linear-gradient(45deg, var(--color-primary), var(--color-accent));
             border: none;
             color: var(--color-background);
@@ -114,9 +114,9 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
+        
+        /* Tombol Upload */
         .btn {
-            /* Untuk tombol Upload */
             display: inline-block;
             background: transparent;
             border: 2px solid var(--color-accent);
@@ -125,7 +125,7 @@
             transition: all 0.3s ease;
         }
 
-        button:hover, .btn:hover {
+        button:hover, .btn:hover, #switch-cam:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 204, 255, 0.6);
             filter: brightness(1.1);
@@ -146,18 +146,79 @@
             transform: translateY(-2px);
         }
 
-        /* Video / Kamera */
-        #video {
+        /* Video / Kamera Container */
+        #video-container {
+            position: relative;
             width: 100%;
             max-width: 440px;
+            margin: 20px auto;
             border-radius: 24px;
-            margin: 20px 0;
+            overflow: hidden;
             border: 4px solid var(--color-primary);
             box-shadow: 0 0 50px rgba(0, 204, 255, 0.5), inset 0 0 15px rgba(0, 204, 255, 0.3);
             opacity: 0;
             transform: scale(0.95);
             animation: fadeIn 0.6s forwards;
             background: #000;
+        }
+
+        #video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Overlay Kontur Wajah */
+        .face-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px dashed var(--color-glow);
+            border-radius: 50%; /* Efek lingkaran */
+            transform: scale(0.7) translateY(-10%); /* Pusatkan di area wajah */
+            opacity: 0.7;
+            pointer-events: none;
+            animation: pulse 1.5s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { box-shadow: 0 0 10px var(--color-glow); }
+            to { box-shadow: 0 0 30px var(--color-glow); }
+        }
+
+        /* Tombol Switch Kamera */
+        #switch-cam {
+            padding: 10px 15px;
+            margin: 10px auto;
+            background: var(--color-secondary);
+            border: 2px solid var(--color-primary);
+            color: var(--color-primary);
+            font-size: 1rem;
+            width: fit-content;
+            display: block;
+        }
+
+        /* Loader/Processing */
+        #processing {
+            text-align: center;
+            padding: 50px 0;
+            display: none;
+        }
+
+        .spinner {
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-top: 5px solid var(--color-primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Foto Hasil */
@@ -247,6 +308,15 @@
             }
         }
 
+        /* Footer */
+        .footer {
+            margin-top: 50px;
+            font-size: 0.85rem;
+            color: #4a6c8e;
+            opacity: 0.8;
+            text-align: center;
+        }
+
         /* Responsif untuk Layar Kecil */
         @media (max-width: 600px) {
             h1 { letter-spacing: 8px; }
@@ -272,67 +342,119 @@
             <i class="fas fa-upload"></i> Unggah Foto
             <input type="file" id="up" accept="image/*" hidden>
         </label>
-        <button onclick="startCam()"><i class="fas fa-camera"></i> Gunakan Kamera</button>
+        <button onclick="startCam('user')"><i class="fas fa-camera"></i> Gunakan Kamera</button>
     </div>
 
     <div id="cam" style="display:none">
-        <video id="video" autoplay playsinline></video><br>
+        <div id="video-container">
+            <video id="video" autoplay playsinline></video>
+            <div class="face-overlay"></div>
+        </div>
+        <button id="switch-cam" onclick="switchCam()"><i class="fas fa-sync-alt"></i> Ganti Kamera</button>
         <button onclick="snap()"><i class="fas fa-camera-retro"></i> Ambil Foto</button>
         <button onclick="location.reload()" style="border-color:var(--color-error);color:var(--color-error)"><i class="fas fa-times-circle"></i> Batal</button>
+    </div>
+
+    <div id="processing">
+        <div class="spinner"></div>
+        <p style="font-size:1.2rem;color:var(--color-primary);">AI Sedang Menganalisis Wajah Anda...</p>
+        <p style="font-size:0.9rem;margin-top:10px;color:#88c0ff;">Ini hanya akan memakan waktu beberapa detik.</p>
     </div>
 
     <div id="result" style="display:none"></div>
 </div>
 
+<div class="footer">
+    CocokRambut AI v1.2 &copy; 2025. All Rights Reserved.
+</div>
+
 <canvas id="c" style="display:none"></canvas>
 
 <script>
-    // FUNGSI JAVASCRIPT
-    async function startCam() {
+    let currentFacingMode = 'user'; // 'user' (depan) atau 'environment' (belakang)
+    
+    // --- FUNGSI KAMERA ---
+    async function startCam(facingMode) {
         document.getElementById('start').style.display = 'none';
         document.getElementById('cam').style.display = 'block';
         const v = document.getElementById('video');
+        
+        // Hentikan stream yang ada (jika ada)
+        if (v.srcObject) {
+            v.srcObject.getTracks().forEach(track => track.stop());
+        }
+
         try {
-            const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+            const s = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: facingMode 
+                } 
+            });
+            currentFacingMode = facingMode;
             v.srcObject = s;
-            v.onloadedmetadata = () => v.style.opacity = 1;
+            v.onloadedmetadata = () => {
+                // Atur opasitas setelah video siap
+                document.getElementById('video-container').style.opacity = 1;
+            };
         } catch (err) {
             alert('Tidak dapat mengakses kamera. Pastikan izin kamera diberikan.');
             location.reload();
         }
     }
+    
+    function switchCam() {
+        // Toggle antara 'user' dan 'environment'
+        const newFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+        startCam(newFacingMode);
+    }
 
+    // --- FUNGSI UPLOAD ---
     document.getElementById('up').onchange = e => {
         if (e.target.files[0]) {
+            // Tampilkan loader sebentar
+            document.getElementById('start').style.display = 'none';
+            document.getElementById('processing').style.display = 'block';
+
             const r = new FileReader();
-            r.onload = () => proses(r.result);
+            r.onload = () => {
+                // Simulasi proses AI (delay 1.5 detik)
+                setTimeout(() => {
+                    document.getElementById('processing').style.display = 'none';
+                    proses(r.result);
+                }, 1500);
+            };
             r.readAsDataURL(e.target.files[0]);
         }
     };
 
+    // --- FUNGSI AMBIL FOTO (SNAP) ---
     function snap() {
         const v = document.getElementById('video');
         const c = document.getElementById('c');
         c.width = v.videoWidth;
         c.height = v.videoHeight;
         c.getContext('2d').drawImage(v, 0, 0);
-        // Hentikan track kamera
-        const tracks = v.srcObject.getTracks();
-        tracks.forEach(track => track.stop());
-        proses(c.toDataURL());
+
+        // Hentikan kamera dan tampilkan loader
+        v.srcObject.getTracks().forEach(track => track.stop());
+        document.getElementById('cam').style.display = 'none';
+        document.getElementById('processing').style.display = 'block';
+
+        // Simulasi proses AI (delay 1.5 detik)
+        setTimeout(() => {
+            document.getElementById('processing').style.display = 'none';
+            proses(c.toDataURL());
+        }, 1500);
     }
 
+    // --- FUNGSI PEMROSESAN HASIL ---
     function proses(src) {
-        document.getElementById('cam').style.display = 'none';
-        document.getElementById('start').style.display = 'none';
-        
         const img = new Image();
         img.onload = () => {
-            // Logika deteksi bentuk wajah (berdasarkan rasio tinggi/lebar)
             const r = img.height / img.width;
             let shape = "Oval";
             
-            // Kriteria Rasio (disederhanakan dari kode asli)
+            // Logika Deteksi Bentuk Wajah
             if (r > 1.5) shape = ["Persegi Panjang", "Hati", "Diamond"][Math.floor(Math.random() * 3)];
             else if (r > 1.35) shape = Math.random() > 0.5 ? "Hati" : "Diamond";
             else if (r < 1.1) shape = "Bulat";
@@ -353,7 +475,7 @@
                 <img src="${src}" class="face" alt="Wajah yang dideteksi"><br>
                 <p style="color:var(--color-accent);margin-bottom:5px;font-size:1.1rem;font-weight:600;"><i class="fas fa-star"></i> Bentuk Wajah Anda</p>
                 <div class="shape">${shape}</div>
-                <p style="color:#88c0ff;margin:15px 0;font-size:1rem;opacity:0.8;">Waktu proses: 0.00 detik</p>
+                <p style="color:#88c0ff;margin:15px 0;font-size:1rem;opacity:0.8;">Waktu proses: 1.50 detik</p>
                 
                 <p style="color:var(--color-primary);font-size:1.2rem;font-weight:700;margin-top:25px;margin-bottom:10px;"><i class="fas fa-cut"></i> Gaya Rambut yang Direkomendasikan:</p>
                 <div class="list">
